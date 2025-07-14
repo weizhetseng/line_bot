@@ -15,6 +15,10 @@ const client = new line.messagingApi.MessagingApiClient({
   channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN
 });
 
+router.get('/callback', (req, res) => {
+  res.status(500).send('This endpoint is not meant to be accessed directly. Please use the LINE webhook URL instead.');
+});
+
 
 router.post('/callback', line.middleware(config), (req, res) => {
   Promise
