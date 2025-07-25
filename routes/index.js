@@ -13,20 +13,52 @@ router.post("/webhook", function (req, res) {
   if (req.body.events[0].type === "message") {
     // You must stringify reply token and message data to send to the API server
     const dataString = JSON.stringify({
-      // Define reply token
       replyToken: req.body.events[0].replyToken,
-      // Define reply messages
-      loadingSeconds: 5,
       messages: [
         {
-          type: "text",
-          text: "Hello, user",
-        },
-        {
-          type: "text",
-          text: "May I help you?",
-        },
-      ],
+          "type": "flex",
+          "altText": "這是一則 Flex Message", // 在聊天列表和推播通知中顯示的替代文字
+          "contents": {
+            "type": "bubble",
+            "body": {
+              "type": "box",
+              "layout": "vertical",
+              "spacing": "md",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "Hello, user",
+                  "weight": "bold",
+                  "size": "xl"
+                },
+                {
+                  "type": "text",
+                  "text": "May I help you?",
+                  "wrap": true
+                }
+              ]
+            },
+            "footer": {
+              "type": "box",
+              "layout": "vertical",
+              "contents": [
+                {
+                  "type": "button",
+                  "style": "primary",
+                  "color": "#1DB446",
+                  "action": {
+                    "type": "postback", // Postback action 會將資料傳回你的 webhook
+                    "label": "點我顯示載入動畫",
+                    "data": "action=show_loading",
+                    "displayText": "我點了按鈕",
+                    "loadingSeconds": 5 // 👈 正確的位置在這裡！在 Action 物件裡面
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
     });
 
     // Request header. See Messaging API reference for specification
