@@ -16,6 +16,7 @@ router.post("/webhook", function (req, res) {
       // Define reply token
       replyToken: req.body.events[0].replyToken,
       // Define reply messages
+      loadingSeconds: 5,
       messages: [
         {
           type: "text",
